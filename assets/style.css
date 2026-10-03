@@ -1,0 +1,257 @@
+:root {
+  --bg-dark: #042f2e;
+  --bg-card: rgba(6, 78, 59, 0.75);
+  --emerald-primary: #10b981;
+  --emerald-hover: #059669;
+  --gold-accent: #f59e0b;
+  --text-light: #f3f4f6;
+  --text-muted: #9ca3af;
+  --verified-blue: #3b82f6;
+  --whatsapp-reply-bg: rgba(16, 185, 129, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: radial-gradient(circle at top, #064e3b 0%, #042f2e 100%);
+  color: var(--text-light);
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* Header Navbar */
+header {
+  background: rgba(4, 47, 46, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--gold-accent);
+}
+
+.brand img {
+  width: 32px;
+  height: 32px;
+}
+
+/* Badge Verified Centang Biru */
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  background-color: var(--verified-blue);
+  color: white;
+  border-radius: 50%;
+  font-size: 10px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+/* Main App Container */
+.container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+/* Card Glassmorphism */
+.card {
+  background: var(--bg-card);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
+
+/* Bottom Nav */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(4, 47, 46, 0.95);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(245, 158, 11, 0.3);
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  z-index: 1000;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: all 0.3s;
+}
+
+.nav-item.active, .nav-item:hover {
+  color: var(--gold-accent);
+}
+
+.nav-item i {
+  font-size: 1.3rem;
+  margin-bottom: 3px;
+}
+
+/* Buttons & Inputs */
+.btn {
+  background: var(--emerald-primary);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn:hover { background: var(--emerald-hover); }
+.btn-gold { background: var(--gold-accent); color: #000; }
+.btn-gold:hover { background: #d97706; }
+.btn-google { background: #ea4335; color: white; margin-top: 8px; width: 100%; }
+
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: white;
+  margin-bottom: 12px;
+}
+
+/* Global Chat UI */
+.chat-box {
+  height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+}
+
+.chat-bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: rgba(16, 185, 129, 0.2);
+  align-self: flex-start;
+  position: relative;
+}
+
+.chat-bubble.mine {
+  align-self: flex-end;
+  background: var(--emerald-primary);
+}
+
+.chat-sender {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--gold-accent);
+  margin-bottom: 4px;
+}
+
+.quote-reply-box {
+  background: var(--whatsapp-reply-bg);
+  border-left: 4px solid var(--emerald-primary);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-bottom: 6px;
+  color: #ddd;
+}
+
+/* TikTok Feed Media */
+.feed-card {
+  background: rgba(0,0,0,0.4);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.feed-header {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+}
+
+.feed-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.feed-user img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.feed-media {
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  background: black;
+}
+
+.feed-actions {
+  display: flex;
+  gap: 15px;
+  padding: 12px;
+  font-size: 1.2rem;
+}
+
+/* Counter Dzikir */
+.dzikir-circle {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 6px solid var(--gold-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 20px auto;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+}
