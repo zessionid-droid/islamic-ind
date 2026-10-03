@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ramadhan Web Official - © ZaryEzzy</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header Top Navbar -->
+  <header>
+    <div class="brand">
+      <img src="assets/icon.svg" alt="Logo">
+      <span>Ramadhan Web</span>
+    </div>
+    <div id="userHeaderProfile">
+      <button class="btn btn-gold" onclick="switchTab('auth')">Login / Daftar</button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- 1. TAB COUNTDOWN & JADWAL SHOLAT -->
+    <div id="tab-home" class="tab-content active">
+      <div class="card" style="text-align: center;">
+        <h2 style="color: var(--gold-accent);">🌙 Hitung Mundur Ramadhan</h2>
+        <p>Menuju Ramadhan 1448 H</p>
+        <div id="timerDisplay" style="font-size: 2rem; font-weight: bold; margin: 15px 0; color: var(--emerald-primary);">
+          00d : 00h : 00m : 00s
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><i class="fa-solid fa-mosque"></i> Jadwal Sholat & Puasa (Hari Ini)</h3>
+        <p style="font-size:0.85rem; color: var(--text-muted); margin-bottom: 10px;">Lokasi: Indonesia (Auto-Fetch)</p>
+        <div id="prayerSchedule" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; text-align: center;">
+          <div class="card" style="padding: 10px; background: rgba(0,0,0,0.3);">Imsak<br><b id="sch-imsak">--:--</b></div>
+          <div class="card" style="padding: 10px; background: rgba(0,0,0,0.3);">Subuh<br><b id="sch-fajr">--:--</b></div>
+          <div class="card" style="padding: 10px; background: rgba(0,0,0,0.3);">Dzuhur<br><b id="sch-dhuhr">--:--</b></div>
+          <div class="card" style="padding: 10px; background: rgba(0,0,0,0.3);">Ashar<br><b id="sch-asr">--:--</b></div>
+          <div class="card" style="padding: 10px; background: rgba(0,0,0,0.3);">Maghrib<br><b id="sch-maghrib">--:--</b></div>
+          <div class="card" style="padding: 10px; background: rgba(0,0,0,0.3);">Isya<br><b id="sch-isha">--:--</b></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. TAB AL-QUR'AN & BELAJAR -->
+    <div id="tab-quran" class="tab-content">
+      <div class="card">
+        <h3><i class="fa-solid fa-book-quran"></i> Al-Qur'an Digital</h3>
+        <input type="text" id="searchSurah" placeholder="Cari Surah..." onkeyup="filterSurah()">
+        <div id="surahList" style="max-height: 350px; overflow-y: auto;">
+          <p>Memuat surah...</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3><i class="fa-solid fa-graduation-cap"></i> Belajar Hijaiyah & Tajwid</h3>
+        <div style="display: flex; gap: 10px; overflow-x: auto; padding: 10px 0;">
+          <div class="card" style="min-width: 80px; text-align: center; font-size: 1.8rem; background: var(--emerald-primary);">ا<br><span style="font-size:0.8rem">Alif</span></div>
+          <div class="card" style="min-width: 80px; text-align: center; font-size: 1.8rem; background: var(--emerald-primary);">ب<br><span style="font-size:0.8rem">Ba</span></div>
+          <div class="card" style="min-width: 80px; text-align: center; font-size: 1.8rem; background: var(--emerald-primary);">ت<br><span style="font-size:0.8rem">Ta</span></div>
+          <div class="card" style="min-width: 80px; text-align: center; font-size: 1.8rem; background: var(--emerald-primary);">ث<br><span style="font-size:0.8rem">Tsa</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. TAB COUNTER DZIKIR -->
+    <div id="tab-dzikir" class="tab-content">
+      <div class="card" style="text-align: center;">
+        <h3><i class="fa-solid fa-hand-holding-heart"></i> Digital Tasbih / Dzikir</h3>
+        <p id="dzikirLabel" style="margin-top: 10px; color: var(--gold-accent); font-size: 1.2rem;">Subhanallah</p>
+        <div class="dzikir-circle" onclick="incrementDzikir()" id="dzikirCounter">0</div>
+        <button class="btn btn-gold" onclick="resetDzikir()"><i class="fa-solid fa-rotate-right"></i> Reset Counter</button>
+      </div>
+    </div>
+
+    <!-- 4. TAB GLOBAL CHAT (REALTIME FIRESTORE) -->
+    <div id="tab-chat" class="tab-content">
+      <div class="card">
+        <h3><i class="fa-solid fa-comments"></i> Global Chat Komunitas</h3>
+        <div id="replyPreview" style="display:none;" class="quote-reply-box">
+          <span id="replyPreviewText">Membalas...</span>
+          <i class="fa-solid fa-xmark" style="float:right; cursor:pointer;" onclick="cancelReply()"></i>
+        </div>
+        <div class="chat-box" id="chatBox"></div>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+          <input type="text" id="chatInput" placeholder="Ketik pesan..." style="margin-bottom:0;">
+          <button class="btn" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. TAB TIKTOK FEED -->
+    <div id="tab-feed" class="tab-content">
+      <div class="card">
+        <h3><i class="fa-solid fa-square-plus"></i> Upload Media (TikTok Style)</h3>
+        <input type="text" id="feedMediaUrl" placeholder="Paste URL Gambar / Video (Direct Link)">
+        <textarea id="feedCaption" placeholder="Tulis caption Ramadhan..."></textarea>
+        <button class="btn" onclick="uploadFeedPost()">Post Sekarang</button>
+      </div>
+
+      <div id="feedList"></div>
+    </div>
+
+    <!-- 6. TAB AUTH (FIREBASE AUTH) -->
+    <div id="tab-auth" class="tab-content">
+      <div class="card" style="max-width: 450px; margin: 0 auto;">
+        <h3>Login / Daftar Akun</h3>
+        <input type="email" id="authEmail" placeholder="Email Gmail Anda">
+        <input type="password" id="authPassword" placeholder="Password min 6 karakter">
+        
+        <div style="display:flex; gap:10px;">
+          <button class="btn" style="flex:1" onclick="handleEmailSignUp()">Daftar</button>
+          <button class="btn btn-gold" style="flex:1" onclick="handleEmailSignIn()">Login</button>
+        </div>
+        
+        <button class="btn btn-google" onclick="handleGoogleSignIn()">
+          <i class="fa-brands fa-google"></i> Masuk dengan Google
+        </button>
+      </div>
+    </div>
+
+    <!-- 7. TAB PROFIL -->
+    <div id="tab-profile" class="tab-content">
+      <div class="card" style="text-align: center;">
+        <img id="profAvatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--gold-accent);">
+        <h2 id="profName" style="margin-top: 10px;">Guest</h2>
+        <p id="profBio" style="color: var(--text-muted); margin-bottom: 15px;">-</p>
+
+        <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
+        <h3>Edit Profil Anda</h3>
+        <input type="text" id="editUsername" placeholder="Nama Baru">
+        <input type="text" id="editAvatarUrl" placeholder="URL Foto Profil">
+        <button class="btn" onclick="updateProfile()">Simpan Perubahan</button>
+        <button class="btn" style="background:#dc2626; margin-top:10px; width:100%" onclick="handleSignOut()">Logout</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <button class="nav-item active" onclick="switchTab('home')"><i class="fa-solid fa-moon"></i>Jadwal</button>
+    <button class="nav-item" onclick="switchTab('quran')"><i class="fa-solid fa-book-quran"></i>Al-Qur'an</button>
+    <button class="nav-item" onclick="switchTab('dzikir')"><i class="fa-solid fa-dharmachakra"></i>Dzikir</button>
+    <button class="nav-item" onclick="switchTab('chat')"><i class="fa-solid fa-comments"></i>Chat</button>
+    <button class="nav-item" onclick="switchTab('feed')"><i class="fa-solid fa-video"></i>Feed</button>
+    <button class="nav-item" onclick="switchTab('profile')"><i class="fa-solid fa-user"></i>Profil</button>
+  </div>
+
+  <!-- FIREBASE SDK MODULAR v10 -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import { 
+      getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, 
+      signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, updateProfile as updateAuthProfile 
+    } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+    import { 
+      getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, updateDoc, arrayUnion, arrayRemove 
+    } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+
+    // ⚠️ GANTI KONFIGURASI DENGAN FIREBASE PROJECT ANDA
+    const firebaseConfig = {
+      apiKey: "YOUR_FIREBASE_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "1234567890",
+      appId: "1:1234567890:web:abcdef123456"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const CREATOR_EMAIL = "ezzarraditya477@gmail.com";
+    let currentUser = null;
+    let selectedReply = null;
+
+    // Badge Verification
+    window.isVerifiedUser = (email) => email && email.toLowerCase() === CREATOR_EMAIL.toLowerCase();
+
+    window.renderBadge = (email) => {
+      return window.isVerifiedUser(email) ? `<span class="verified-badge"><i class="fa-solid fa-check"></i></span>` : '';
+    };
+
+    // Auth Change Listener
+    onAuthStateChanged(auth, (user) => {
+      currentUser = user;
+      const headerArea = document.getElementById('userHeaderProfile');
+      if (user) {
+        const isVer = window.isVerifiedUser(user.email);
+        headerArea.innerHTML = `
+          <div onclick="switchTab('profile')" style="cursor:pointer; display:flex; align-items:center; gap:8px;">
+            <img src="${user.photoURL || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'}" style="width:30px;height:30px;border-radius:50%">
+            <span>${user.displayName || user.email.split('@')[0]} ${window.renderBadge(user.email)}</span>
+          </div>
+        `;
+      } else {
+        headerArea.innerHTML = `<button class="btn btn-gold" onclick="switchTab('auth')">Login / Daftar</button>`;
+      }
+    });
+
+    // Auth Handlers
+    window.handleEmailSignUp = async () => {
+      const email = document.getElementById('authEmail').value;
+      const pass = document.getElementById('authPassword').value;
+      try {
+        await createUserWithEmailAndPassword(auth, email, pass);
+        alert('Pendaftaran berhasil!');
+        switchTab('profile');
+      } catch (err) { alert(err.message); }
+    };
+
+    window.handleEmailSignIn = async () => {
+      const email = document.getElementById('authEmail').value;
+      const pass = document.getElementById('authPassword').value;
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+        alert('Login berhasil!');
+        switchTab('profile');
+      } catch (err) { alert(err.message); }
+    };
+
+    window.handleGoogleSignIn = async () => {
+      const provider = new GoogleAuthProvider();
+      try {
+        await signInWithPopup(auth, provider);
+        alert('Login Google berhasil!');
+        switchTab('profile');
+      } catch (err) { alert(err.message); }
+    };
+
+    window.handleSignOut = () => {
+      signOut(auth);
+      alert('Telah Logout');
+      switchTab('home');
+    };
+
+    window.updateProfile = async () => {
+      if (!currentUser) return alert('Login dulu!');
+      const newName = document.getElementById('editUsername').value;
+      const newAvatar = document.getElementById('editAvatarUrl').value;
+
+      try {
+        await updateAuthProfile(currentUser, {
+          displayName: newName || currentUser.displayName,
+          photoURL: newAvatar || currentUser.photoURL
+        });
+        alert('Profil diperbarui!');
+        location.reload();
+      } catch (e) { alert(e.message); }
+    };
+
+    // GLOBAL CHAT FIRESTORE REALTIME
+    const messagesRef = collection(db, "global_chat");
+    const qChat = query(messagesRef, orderBy("timestamp", "asc"));
+
+    onSnapshot(qChat, (snapshot) => {
+      const chatBox = document.getElementById('chatBox');
+      chatBox.innerHTML = '';
+      snapshot.forEach((doc) => {
+        const msg = doc.data();
+        const isMine = currentUser && msg.uid === currentUser.uid;
+        const div = document.createElement('div');
+        div.className = `chat-bubble ${isMine ? 'mine' : ''}`;
+        
+        let replyHtml = msg.replyTo ? `<div class="quote-reply-box"><b>${msg.replyTo.sender}:</b> ${msg.replyTo.text}</div>` : '';
+
+        div.innerHTML = `
+          ${replyHtml}
+          <div class="chat-sender" onclick="setReply('${msg.senderName}', '${msg.text}')" style="cursor:pointer;">
+            ${msg.senderName} ${window.renderBadge(msg.email)}
+          </div>
+          <div>${msg.text}</div>
+        `;
+        chatBox.appendChild(div);
+      });
+      chatBox.scrollTop = chatBox.scrollHeight;
+    });
+
+    window.setReply = (sender, text) => {
+      selectedReply = { sender, text };
+      document.getElementById('replyPreviewText').innerText = `Membalas ${sender}: "${text}"`;
+      document.getElementById('replyPreview').style.display = 'block';
+    };
+
+    window.cancelReply = () => {
+      selectedReply = null;
+      document.getElementById('replyPreview').style.display = 'none';
+    };
+
+    window.sendChatMessage = async () => {
+      if (!currentUser) return alert('Login dulu!');
+      const input = document.getElementById('chatInput');
+      if (!input.value.trim()) return;
+
+      await addDoc(messagesRef, {
+        uid: currentUser.uid,
+        senderName: currentUser.displayName || currentUser.email.split('@')[0],
+        email: currentUser.email,
+        text: input.value,
+        replyTo: selectedReply,
+        timestamp: serverTimestamp()
+      });
+
+      input.value = '';
+      window.cancelReply();
+    };
+
+    // TIKTOK FEED REALTIME
+    const postsRef = collection(db, "posts");
+    const qPosts = query(postsRef, orderBy("createdAt", "desc"));
+
+    onSnapshot(qPosts, (snapshot) => {
+      const container = document.getElementById('feedList');
+      container.innerHTML = '';
+      snapshot.forEach((docSnap) => {
+        const p = docSnap.data();
+        const id = docSnap.id;
+        const isVideo = p.mediaUrl.includes('.mp4') || p.mediaUrl.includes('video');
+
+        container.innerHTML += `
+          <div class="feed-card">
+            <div class="feed-header">
+              <div class="feed-user">
+                <img src="${p.userAvatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150'}">
+                <b>${p.username} ${window.renderBadge(p.email)}</b>
+              </div>
+            </div>
+            ${isVideo ? `<video src="${p.mediaUrl}" controls class="feed-media"></video>` : `<img src="${p.mediaUrl}" class="feed-media">`}
+            <div class="feed-actions">
+              <i class="fa-solid fa-heart" style="color:var(--gold-accent);"></i>
+              <span>${p.likes ? p.likes.length : 0} Suka</span>
+            </div>
+            <div style="padding: 0 12px 12px 12px;">${p.caption}</div>
+          </div>
+        `;
+      });
+    });
+
+    window.uploadFeedPost = async () => {
+      if (!currentUser) return alert('Login dulu!');
+      const url = document.getElementById('feedMediaUrl').value;
+      const caption = document.getElementById('feedCaption').value;
+
+      if (!url) return alert('Masukkan URL Gambar/Video!');
+
+      await addDoc(postsRef, {
+        uid: currentUser.uid,
+        username: currentUser.displayName || currentUser.email.split('@')[0],
+        email: currentUser.email,
+        userAvatar: currentUser.photoURL,
+        mediaUrl: url,
+        caption: caption,
+        likes: [],
+        createdAt: serverTimestamp()
+      });
+
+      document.getElementById('feedMediaUrl').value = '';
+      document.getElementById('feedCaption').value = '';
+      alert('Post berhasil diupload!');
+    };
+  </script>
+
+  <!-- Non-Firebase General Script -->
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      
+      const target = document.getElementById(`tab-${tabId}`);
+      if (target) target.classList.add('active');
+
+      if (tabId === 'quran') fetchSurah();
+    }
+
+    // Countdown Timer
+    function updateCountdown() {
+      const ramadhanDate = new Date('February 8, 2027 00:00:00').getTime();
+      const now = new Date().getTime();
+      const diff = ramadhanDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('timerDisplay').innerText = "Marhaban Ya Ramadhan! 🌙";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('timerDisplay').innerText = `${days}d : ${hours}h : ${mins}m : ${secs}s`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Fetch Jadwal Sholat API
+    async function fetchPrayerTimes() {
+      try {
+        const res = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Jakarta&country=Indonesia&method=11');
+        const data = await res.json();
+        const t = data.data.timings;
+        document.getElementById('sch-imsak').innerText = t.Imsak;
+        document.getElementById('sch-fajr').innerText = t.Fajr;
+        document.getElementById('sch-dhuhr').innerText = t.Dhuhr;
+        document.getElementById('sch-asr').innerText = t.Asr;
+        document.getElementById('sch-maghrib').innerText = t.Maghrib;
+        document.getElementById('sch-isha').innerText = t.Isha;
+      } catch (err) {}
+    }
+    fetchPrayerTimes();
+
+    // Dzikir
+    let count = 0;
+    function incrementDzikir() {
+      count++;
+      document.getElementById('dzikirCounter').innerText = count;
+    }
+    function resetDzikir() {
+      count = 0;
+      document.getElementById('dzikirCounter').innerText = 0;
+    }
+
+    // Al-Qur'an
+    async function fetchSurah() {
+      const container = document.getElementById('surahList');
+      try {
+        const res = await fetch('https://equran.id/api/v2/surat');
+        const data = await res.json();
+        container.innerHTML = data.data.map(s => `
+          <div class="card" style="padding:10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+            <div><b>${s.nomor}. ${s.namaLatin}</b> (${s.jumlahAyat} Ayat)</div>
+            <div style="font-size:1.2rem; color:var(--gold-accent);">${s.nama}</div>
+          </div>
+        `).join('');
+      } catch (e) {
+        container.innerHTML = '<p>Gagal memuat surah.</p>';
+      }
+    }
+  </script>
+</body>
+</html>
